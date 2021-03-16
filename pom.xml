@@ -16,6 +16,7 @@
         <version.slf4j>1.7.30</version.slf4j>
         <version.logback>1.2.3</version.logback>
         <version.spring>5.3.5</version.spring>
+        <version.javax.inject>1</version.javax.inject>
     </properties>
 
     <dependencies>
