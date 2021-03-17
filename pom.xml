@@ -17,6 +17,7 @@
         <version.logback>1.2.3</version.logback>
         <version.spring>5.3.5</version.spring>
         <version.javax.inject>1</version.javax.inject>
+        <version.aspectj>1.9.6</version.aspectj>
     </properties>
 
     <dependencies>
