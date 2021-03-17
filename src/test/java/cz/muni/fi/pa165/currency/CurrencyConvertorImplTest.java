@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.Mockito.when;
@@ -34,7 +35,7 @@ public class CurrencyConvertorImplTest {
     @Test
     public void testConvert() throws ExternalServiceFailureException {
         when(exchangeRateTable.getExchangeRate(EUR, CZK))
-                .thenReturn(new BigDecimal("0.1"));
+                .thenReturn(Optional.of(new BigDecimal("0.1")));
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(currencyConvertor.convert(EUR, CZK, new BigDecimal("10.050")))
@@ -69,7 +70,7 @@ public class CurrencyConvertorImplTest {
     @Test
     public void testConvertWithUnknownCurrency() throws ExternalServiceFailureException {
         when(exchangeRateTable.getExchangeRate(EUR, CZK))
-                .thenReturn(null);
+                .thenReturn(Optional.empty());
         assertThatExceptionOfType(UnknownExchangeRateException.class)
                 .isThrownBy(() -> currencyConvertor.convert(EUR, CZK, BigDecimal.ONE));
     }

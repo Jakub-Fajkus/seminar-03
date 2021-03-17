@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.Optional;
 
 
 /**
@@ -35,11 +36,9 @@ public class CurrencyConvertorImpl implements CurrencyConvertor {
             throw new IllegalArgumentException("sourceAmount is null");
         }
         try {
-            BigDecimal exchangeRate = exchangeRateTable.getExchangeRate(sourceCurrency, targetCurrency);
-            if (exchangeRate == null) {
-                throw new UnknownExchangeRateException("ExchangeRate is unknown");
-            }
-            return exchangeRate.multiply(sourceAmount).setScale(2, RoundingMode.HALF_EVEN);
+            return exchangeRateTable.getExchangeRate(sourceCurrency, targetCurrency)
+                    .orElseThrow(() -> new UnknownExchangeRateException("ExchangeRate is unknown"))
+                    .multiply(sourceAmount).setScale(2, RoundingMode.HALF_EVEN);
         } catch (ExternalServiceFailureException ex) {
             throw new UnknownExchangeRateException("Error when fetching exchange rate", ex);
         }

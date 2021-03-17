@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.currency;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Optional;
 
 /**
  * ExchangeRateTable provides exchange rates. Source of information depends on
@@ -28,7 +29,7 @@ public interface ExchangeRateTable {
      * @throws ExternalServiceFailureException when lookup for current exchange
      * rate failed.
      */
-    BigDecimal getExchangeRate(Currency sourceCurrency, Currency targetCurrency)
+    Optional<BigDecimal> getExchangeRate(Currency sourceCurrency, Currency targetCurrency)
             throws ExternalServiceFailureException;
 
 }
