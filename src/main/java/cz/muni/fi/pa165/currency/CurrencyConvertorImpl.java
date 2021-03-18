@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.currency;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import javax.inject.Named;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -14,6 +14,7 @@ import java.util.Optional;
  *
  * @author petr.adamek@embedit.cz
  */
+@Named
 public class CurrencyConvertorImpl implements CurrencyConvertor {
 
     private final ExchangeRateTable exchangeRateTable;
@@ -25,7 +26,7 @@ public class CurrencyConvertorImpl implements CurrencyConvertor {
 
     @Override
     public BigDecimal convert(Currency sourceCurrency, Currency targetCurrency, BigDecimal sourceAmount) {
-        log.trace("convert({},{},{})",sourceCurrency, targetCurrency, sourceAmount);
+        log.trace("convert({},{},{})", sourceCurrency, targetCurrency, sourceAmount);
         if (sourceCurrency == null) {
             throw new IllegalArgumentException("sourceCurrency is null");
         }
