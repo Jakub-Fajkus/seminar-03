@@ -1,69 +1,70 @@
-**Prerequisites:** Knowledge of JUnit unit testing framework and SLF4J+Logback logging frameworks
+## Seminar 03 Tasks
+**Task 01** Clone the project and open it.
 
-## Seminar 02 Tasks
-**Task 01** Clone the project and open it. Look at the interfaces ExchangeRateTable and
-CurrencyConvertor in the package cz.fi.muni.pa165.currency and read their contract.
-
-**Task 02** Add mockito-core, mockito-junit-jupiter and assertj-core as a maven dependencies into `pom.xml`:
+**Task 02** Add spring-context as a maven dependency into `pom.xml`:
 ```xml
     <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>${version.assertj}</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>${version.mockito}</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-junit-jupiter</artifactId>
-        <version>${version.mockito}</version>
-        <scope>test</scope>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${version.spring}</version>
     </dependency>
 ```
-Noticed that property values are used as dependency versions. For convenience these properties are already defined within `pom.xml`.
 
-**Task 03** Implement `testConvert()` method in `CurrencyConvertorImplTest`.
-Use [Mockito](http://site.mockito.org/) for creating mocks, 
-[AssertJ](http://joel-costigliola.github.io/assertj/)
-for assertions and do not forget to test border values and proper
-rounding. Ask your teacher to check if the test is well written.
-(Hint: use [Mockito tutorial](http://www.vogella.com/tutorials/Mockito/article.html).)
-Tip: It is better to use `new BigDecimal("15.29")` than `new BigDecimal(15.29)`
-for creating BigDecimal values in the test. Do you know, why?
+**Task 03** Create class ExchangeRateTableImpl in package cz.muni.fi.pa165.currency.
+This class will implement ExchangeRateTable interface, method getExchangeRate
+will return fixed exchange rate 27 for conversion from EUR to CZK and empty value for
+any other currencies.
 
-**Task 04** Implement all other test methods in `CurrencyConvertorImplTest`. 
+**Task 04** Create Spring xml application context which will configure
+components ExchangeRateTableImpl and CurrencyConvertorImpl. Create MainXml class
+in package cz.muni.fi.pa165 with main method which will create Spring
+ApplicationContext based on this Spring xml application context configuration.
+Then get instance of CurrencyConvertor and try convert one euro to czk. Test, if
+the main method is working well.
 
-**Task 05** Implement `convert(...)` method in `CurrencyConvertorImpl` class and
-try to execute tests.
-
-**Task 06** Add slf4j-api as the maven dependency
+**Task 05** Add inject-api as a maven dependency into `pom.xml`:
 ```xml
     <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${version.slf4j}</version>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>${version.javax.inject}</version>
     </dependency>
 ```
-and modify `CurrencyConvertorImpl` class to log:
-* Each call of convert() method as a trace
-* Each conversion failure due missing exchange rate for given currencies as a warning
-* Each conversion failure due `ExternalServiceFailureException` as an error
 
-Do not forget to log all useful context information, but avoid unnecessary string
-concatenations.
+**Task 06** Add JSR-330 annotations to ExchangeRateTableImpl and
+CurrencyConvertorImpl components. Create MainAnnotations class
+in package cz.muni.fi.pa165 with main method which will create Spring
+ApplicationContext based on these annotations.
+Then get instance of CurrencyConvertor and try convert one euro to czk. Test, if
+the main method is working well.
 
-**Task 07** Add Logback as the maven dependency:
+**Task 07** Create JavaConfig Spring application context which will configure
+components ExchangeRateTableImpl and CurrencyConvertorImpl. Create MainJavaConfig
+class in package cz.muni.fi.pa165 with main method which will create Spring
+ApplicationContext based on this JavaConfig application context configuration.
+Then get instance of CurrencyConvertor and try convert one euro to czk. Test, if
+the main method is working well.
+
+Warning: You may unknowingly create two instances of CurrencyConvertor if you
+both have the method annotated with @Bean and enabled scanning of components which finds the class annotated with @Named. In that case remove the scanning of
+components, or specify the bean name as the first parameter of the getBean() method.
+
+**Task 08** Add spring-aop, aspectjrt and aspectjweaver as a maven dependency
+into `pom.xml`:
 ```xml
     <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${version.logback}</version>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>${version.spring}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjweaver</artifactId>
+        <version>${version.aspectj}</version>
     </dependency>
 ```
-Change logback configuration to log also trace messages (see logback.xml file)
-and try to start tests to check if logging works.
+
+**Task 09** Create and configure aspect which will print duration of each
+public method call. Use example from lecture for inspiration (see LoggingAspect
+and SpringJavaConfig classes). Don't forget to enable automatic aspectj proxy
+creation (with @EnableAspectJAutoProxy annotation in JavaConfig class.
