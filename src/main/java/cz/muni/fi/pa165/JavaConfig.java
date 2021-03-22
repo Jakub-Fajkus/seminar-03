@@ -20,7 +20,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan(basePackageClasses = {StopwatchAspect.class})
+@ComponentScan(basePackageClasses = {StopwatchAspect.class}) //vzdy musi byt nejaka top level clasa, protoze se zde udava packagename
 public class JavaConfig {
     //Task 07 Create JavaConfig Spring application context which will configure
     //components ExchangeRateTableImpl and CurrencyConvertorImpl. Create MainJavaConfig

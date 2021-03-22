@@ -23,7 +23,7 @@ public class MainAnnotations {
 
     public static void main(String[] args) {
         ApplicationContext applicationContext
-                = new AnnotationConfigApplicationContext("cz.muni.fi.pa165");
+                = new AnnotationConfigApplicationContext(MainAnnotations .class.getPackageName()); //tady davas string a neni to ono
 
         CurrencyConvertor convertor = applicationContext.getBean("currencyConvertorImpl", CurrencyConvertor.class);
         System.out.println("Annotations " + convertor.convert(EUR, CZK, new BigDecimal("1")));
